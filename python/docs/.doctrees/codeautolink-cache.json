@@ -1,0 +1,194 @@
+{
+  "index": [],
+  "pages/average": [
+    {
+      "source": "import os\nos.environ[\"ATLASAPPROX_HIDECREDITS\"] = \"yes\"\nimport atlasapprox\n\napi = atlasapprox.API()",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "initialize-the-api",
+        "headings": [
+          "Exploring average gene expression",
+          "Initialize the API"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "import matplotlib.pyplot as plt\nimport seaborn as sns\nimport numpy as np\nimport pandas as pd",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "required-packages",
+        "headings": [
+          "Exploring average gene expression",
+          "Required packages"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "avg_gene_expr_lung = api.average(\n    organism='h_sapiens', \n    organ='lung', \n    features=['PRDM1', 'PTPRC', 'ACTB', 'GAPDH'],\n    measurement_type='gene_expression'\n)\n\n# Set displayed pandas dataframe size\npd.set_option('display.max_rows', 10)       # Limit to 10 rows\npd.set_option('display.max_columns', 7)     # Limit to 7 columns\n\n# display results\navg_gene_expr_lung\n",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "querying-average-expression-data-for-a-single-organ",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying average expression data for a single organ"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Create a figure with a specific size (width=8, height=4)\nplt.figure(figsize=(8,4))\n\nsns.heatmap(\n        avg_gene_expr_lung, \n        # yellow-to-red color map\n        cmap='YlOrRd', \n        # add label to calour bar\n        cbar_kws={'label': 'Expression Level'}\n)\n\n# Customize labels\nplt.title('Average gene expression across cell types in the human lung')\nplt.xlabel('Cell types')\nplt.ylabel('Genes')\n\n# Keep gene names horizontal\nplt.yticks(rotation=0)\n\n# Prevent label cutoff\nplt.tight_layout()\n\nplt.show()",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "visualizing-the-data",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying average expression data for a single organ",
+          "Visualizing the data"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Define the target organs.\norgan_list = ['bladder','blood','colon']\n\n# create a dictionary to store each avg_gene_expr\navg_gene_expr_dic = {}\n\n# Loop through organ_list and display the results\nfor organ in organ_list: \n    avg_gene_expr = api.average(\n        organism='h_sapiens', \n        organ=organ, \n        features=['PRDM1', 'PTPRC', 'ACTB', 'GAPDH'],\n    )\n\n    # Store results into dictionary\n    avg_gene_expr_dic[organ] = avg_gene_expr\n\n    # Set up figure and display heatmap\n    plt.figure(figsize=(6,2))\n    plt.title(f'Average gene expression across cell types in the human {organ}')\n\n    sns.heatmap(\n        avg_gene_expr, \n        # yellow-to-red color map\n        cmap='YlOrRd', \n        # add label to calour bar\n        cbar_kws={'label': 'Expression Level'}\n    )\n\n    # Show the plot\n    plt.show()",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "querying-expression-data-for-multiple-organs",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying expression data for multiple organs"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "similar_features = api.similar_features(\n    organism='h_sapiens', \n    organ='lung', \n    feature='TP53',\n    method='correlation',\n    number=10\n)\n\nsimilar_features",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "identifying-expression-patterns-of-similar-genes",
+        "headings": [
+          "Exploring average gene expression",
+          "Identifying expression patterns of similar genes"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Get average gene expression \navg_similar_features = api.average(\n    organism='h_sapiens',\n    organ='lung',\n    features=similar_features.index\n)\n\n# Display the heatmap\nsns.heatmap(\n    avg_similar_features, \n    # yellow-to-red color map\n    cmap='YlOrRd', \n    # add label to calour bar\n    cbar_kws={'label': 'Expression Level'}\n)",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "get-average-gene-expression-for-similar-features",
+        "headings": [
+          "Exploring average gene expression",
+          "Identifying expression patterns of similar genes",
+          "Get average gene expression for similar features"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "markers_in_human_lung_neu = api.markers(\n    organism='h_sapiens', \n    organ='lung', \n    cell_type='neutrophil', \n    number=5\n)\n\nmarkers_in_human_lung_neu",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "querying-expression-data-for-marker-genes",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying expression data for marker genes"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Getting average gene expression for marker genes\navg_gene_expr_markers = api.average(\n    organism='h_sapiens',\n    organ='lung',\n    features=markers_in_human_lung_neu\n)\n\nplt.figure(figsize=(8,2))\n\nsns.heatmap(\n    avg_gene_expr_markers, \n    # yellow-to-red color map\n    cmap='YlOrRd', \n    # add label to calour bar\n    cbar_kws={'label': 'Expression Level'}\n)",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "retrieve-and-plot",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying expression data for marker genes",
+          "Retrieve and plot"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Call log method in numpy to get all numbers logged\n# add 1 to avoid \"devide by 0\"\navg_gene_expr_markers_log = np.log(avg_gene_expr_markers + 1)\n\n# Display heatmap\nplt.figure(figsize=(8,2))\n\nsns.heatmap(\n    avg_gene_expr_markers_log, \n    # yellow-to-red color map\n    cmap='YlOrRd', \n    # add label to calour bar\n    cbar_kws={'label': 'Expression Level'}\n)",
+      "names": [],
+      "example": {
+        "document": "pages/average",
+        "ref_id": "id2",
+        "headings": [
+          "Exploring average gene expression",
+          "Querying expression data for marker genes",
+          "Retrieve and plot",
+          "Output"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ],
+  "pages/quick_start": [
+    {
+      "source": "pip install atlasapprox",
+      "names": [],
+      "example": {
+        "document": "pages/quick_start",
+        "ref_id": "installation",
+        "headings": [
+          "Quick start: atlasapprox in Python",
+          "Installation"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "import atlasapprox\n\napi = atlasapprox.API()",
+      "names": [],
+      "example": {
+        "document": "pages/quick_start",
+        "ref_id": "initialize-the-api",
+        "headings": [
+          "Quick start: atlasapprox in Python",
+          "Initialize the API"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "# Call API function with params\navg_gene_expr_lung = api.average(\n    organism = \"h_sapiens\", \n    organ = \"lung\", \n    features = [\"COL13A1\", \"COL14A1\", \"TGFBI\", \"PDGFRA\", \"GZMA\"], \n    measurement_type = \"gene_expression\"\n)\n\n# Display the result\navg_gene_expr_lung",
+      "names": [],
+      "example": {
+        "document": "pages/quick_start",
+        "ref_id": "getting-average-gene-expression",
+        "headings": [
+          "Quick start: atlasapprox in Python",
+          "Getting average gene expression"
+        ]
+      },
+      "doc_lineno": null
+    },
+    {
+      "source": "cell_types = api.celltypes(organism=\"h_sapiens\", organ=\"lung\")\nprint(cell_types)",
+      "names": [],
+      "example": {
+        "document": "pages/quick_start",
+        "ref_id": "start-from-scratch",
+        "headings": [
+          "Quick start: atlasapprox in Python",
+          "Start from scratch"
+        ]
+      },
+      "doc_lineno": null
+    }
+  ]
+}

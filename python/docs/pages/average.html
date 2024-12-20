@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+
+<html class="writer-html5" data-content_root="../" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exploring average gene expression — Explore Average Expression  documentation</title>
+<link href="../_static/pygments.css?v=80d5e7a1" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
+<link href="../_static/jupyter-sphinx.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/thebelab.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-codeautolink.css?v=125d5c1c" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js?v=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script src="../_static/documentation_options.js?v=5929fcd5"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../_static/thebelab-helper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quick_start.html" rel="prev" title="Quick start: atlasapprox in Python"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            Explore Average Expression
+          </a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html"><strong>Quick start: atlasapprox in Python</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exploring average gene expression</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialize-the-api">Initialize the API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#required-packages">Required packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#querying-average-expression-data-for-a-single-organ"><strong>Querying average expression data for a single organ</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#output">Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualizing-the-data">Visualizing the data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#querying-expression-data-for-multiple-organs"><strong>Querying expression data for multiple organs</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#identifying-expression-patterns-of-similar-genes"><strong>Identifying expression patterns of similar genes</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-average-gene-expression-for-similar-features">Get average gene expression for similar features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#querying-expression-data-for-marker-genes"><strong>Querying expression data for marker genes</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#retrieve-and-plot">Retrieve and plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion"><strong>Conclusion</strong></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Explore Average Expression</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item active">Exploring average gene expression</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/pages/average.md.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<section id="exploring-average-gene-expression">
+<h1>Exploring average gene expression<a class="headerlink" href="#exploring-average-gene-expression" title="Link to this heading"></a></h1>
+<p>Investigating cell atlases often involves exploring gene expression patterns across different cell types and organs.
+This tutorial guides you through using the <a class="reference external" href="https://atlasapprox.readthedocs.io/en/latest/python/index.html">atlasapprox API</a>
+to explore gene expression data effectively. You will gain a general idea of how to query average expression, discover
+patterns of similar genes, identify marker genes, and visualize the data.</p>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#querying-average-expression-data-for-a-single-organ"><span class="xref myst">Querying average expression data for a single organ</span></a></p></li>
+<li><p><a class="reference internal" href="#querying-expression-data-for-multiple-organs"><span class="xref myst">Querying expression data for multiple organs</span></a></p></li>
+<li><p><a class="reference internal" href="#identifying-expression-patterns-of-similar-genes"><span class="xref myst">Identifying expression patterns of similar genes</span></a></p></li>
+<li><p><a class="reference internal" href="#querying-expression-data-for-marker-genes"><span class="xref myst">Querying expression data for marker genes</span></a></p></li>
+</ul>
+</section>
+<section id="initialize-the-api">
+<h2>Initialize the API<a class="headerlink" href="#initialize-the-api" title="Link to this heading"></a></h2>
+<p>To begin, import the <em>atlasapprox</em> Python package and create an API object:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"ATLASAPPROX_HIDECREDITS"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"yes"</span>
+<span class="kn">import</span> <span class="nn">atlasapprox</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">atlasapprox</span><span class="o">.</span><span class="n">API</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>For complete setup instructions, see the <a class="reference external" href="https://github.com/Amber-Xu914/atlasapprox_api_tutorials/blob/main/python/quick_start.ipynb">Quick Start Tutorial</a>.</p>
+</section>
+<section id="required-packages">
+<h2>Required packages<a class="headerlink" href="#required-packages" title="Link to this heading"></a></h2>
+<p>To follow along with the data visualization in this tutorial, first install the following packages using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, and then import them by running this command in your terminal or Jupyter notebook:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="querying-average-expression-data-for-a-single-organ">
+<h2><strong>Querying average expression data for a single organ</strong><a class="headerlink" href="#querying-average-expression-data-for-a-single-organ" title="Link to this heading"></a></h2>
+<p><a id="querying-average-expression-data-for-a-single-organ"></a></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">average</span></code> method allows you to retrieve average gene expression of selected genes across cell types within a specific organ of a species.</p>
+<p>Use the following code to get the average gene expression data for four exmaple genes (<em>PRDM1</em>, <em>PTPRC</em>, <em>ACTB</em>, <em>GAPDH</em>) in the human lung across cell types:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_gene_expr_lung</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+    <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span> 
+    <span class="n">organ</span><span class="o">=</span><span class="s1">'lung'</span><span class="p">,</span> 
+    <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">'PRDM1'</span><span class="p">,</span> <span class="s1">'PTPRC'</span><span class="p">,</span> <span class="s1">'ACTB'</span><span class="p">,</span> <span class="s1">'GAPDH'</span><span class="p">],</span>
+    <span class="n">measurement_type</span><span class="o">=</span><span class="s1">'gene_expression'</span>
+<span class="p">)</span>
+
+<span class="c1"># Set displayed pandas dataframe size</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.max_rows'</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>       <span class="c1"># Limit to 10 rows</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.max_columns'</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>     <span class="c1"># Limit to 7 columns</span>
+
+<span class="c1"># display results</span>
+<span class="n">avg_gene_expr_lung</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>neutrophil</th>
+<th>basophil</th>
+<th>monocyte</th>
+<th>...</th>
+<th>pericyte</th>
+<th>mesothelial</th>
+<th>ionocyte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>PRDM1</th>
+<td>0.176963</td>
+<td>0.023585</td>
+<td>0.513526</td>
+<td>...</td>
+<td>0.622059</td>
+<td>0.012507</td>
+<td>0.000000</td>
+</tr>
+<tr>
+<th>PTPRC</th>
+<td>22.312710</td>
+<td>2.443684</td>
+<td>7.794549</td>
+<td>...</td>
+<td>0.638058</td>
+<td>0.586943</td>
+<td>0.541398</td>
+</tr>
+<tr>
+<th>ACTB</th>
+<td>118.968338</td>
+<td>28.412338</td>
+<td>73.133392</td>
+<td>...</td>
+<td>56.245354</td>
+<td>23.728510</td>
+<td>25.516708</td>
+</tr>
+<tr>
+<th>GAPDH</th>
+<td>5.091514</td>
+<td>8.243008</td>
+<td>15.813489</td>
+<td>...</td>
+<td>7.462914</td>
+<td>9.748388</td>
+<td>19.264896</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows × 30 columns</p>
+</div></div></div>
+</div>
+<section id="output">
+<h3>Output<a class="headerlink" href="#output" title="Link to this heading"></a></h3>
+<p>This method returns a <em>Pandas DataFrame</em> where:</p>
+<ul class="simple">
+<li><p>Each row represents a gene.</p></li>
+<li><p>Each column corresponds to a cell type.</p></li>
+<li><p>The values indicate the average gene expression, measured in counts per ten thousand (cptt).</p></li>
+</ul>
+</section>
+<section id="visualizing-the-data">
+<h3>Visualizing the data<a class="headerlink" href="#visualizing-the-data" title="Link to this heading"></a></h3>
+<p>To visualize the average expression data of the queried genes, a heatmap is an effective starting point. The Python visualization libraries <a class="reference external" href="https://seaborn.pydata.org/">Seaborn</a> and <a class="reference external" href="https://matplotlib.org/">Matplotlib</a> offer powerful tools for creating such heatmaps.</p>
+<p>Here is a way to create one using Seaborn’s <code class="docutils literal notranslate"><span class="pre">heatmap</span></code> method with custom colours and labels:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a figure with a specific size (width=8, height=4)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+        <span class="n">avg_gene_expr_lung</span><span class="p">,</span> 
+        <span class="c1"># yellow-to-red color map</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlOrRd'</span><span class="p">,</span> 
+        <span class="c1"># add label to calour bar</span>
+        <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Expression Level'</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Customize labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Average gene expression across cell types in the human lung'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Cell types'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Genes'</span><span class="p">)</span>
+
+<span class="c1"># Keep gene names horizontal</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Prevent label cutoff</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/average_3_0.png" src="../_images/average_3_0.png"/>
+</div>
+</div>
+<p>From the color gradient, it is easier to compare the expression levels across different cell types. By looking at the heatmap, it is clear that <em>ACTB</em> exhibits consistently high gene expression across all cell types compared to the other genes. In contrast, <em>PRDM1</em> shows very low expression overall.</p>
+</section>
+</section>
+<section id="querying-expression-data-for-multiple-organs">
+<h2><strong>Querying expression data for multiple organs</strong><a class="headerlink" href="#querying-expression-data-for-multiple-organs" title="Link to this heading"></a></h2>
+<p><a id="querying-expression-data-for-multiple-organs"></a></p>
+<p>The following example demonstrates the average gene expression of four genes (same as above) across three human organs (<em>bladder</em>, <em>blood</em>, and <em>colon</em>).</p>
+<p><em>Atlasapprox</em> API doesn’t have any method to explore multiple organs at the same time, you can use the following code to make a for loop. At the same time, a plotted data always better then numbers, try to call sns <code class="docutils literal notranslate"><span class="pre">heatmap</span></code> to display the data:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the target organs.</span>
+<span class="n">organ_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'bladder'</span><span class="p">,</span><span class="s1">'blood'</span><span class="p">,</span><span class="s1">'colon'</span><span class="p">]</span>
+
+<span class="c1"># create a dictionary to store each avg_gene_expr</span>
+<span class="n">avg_gene_expr_dic</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Loop through organ_list and display the results</span>
+<span class="k">for</span> <span class="n">organ</span> <span class="ow">in</span> <span class="n">organ_list</span><span class="p">:</span> 
+    <span class="n">avg_gene_expr</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+        <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span> 
+        <span class="n">organ</span><span class="o">=</span><span class="n">organ</span><span class="p">,</span> 
+        <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">'PRDM1'</span><span class="p">,</span> <span class="s1">'PTPRC'</span><span class="p">,</span> <span class="s1">'ACTB'</span><span class="p">,</span> <span class="s1">'GAPDH'</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Store results into dictionary</span>
+    <span class="n">avg_gene_expr_dic</span><span class="p">[</span><span class="n">organ</span><span class="p">]</span> <span class="o">=</span> <span class="n">avg_gene_expr</span>
+
+    <span class="c1"># Set up figure and display heatmap</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Average gene expression across cell types in the human </span><span class="si">{</span><span class="n">organ</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+        <span class="n">avg_gene_expr</span><span class="p">,</span> 
+        <span class="c1"># yellow-to-red color map</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlOrRd'</span><span class="p">,</span> 
+        <span class="c1"># add label to calour bar</span>
+        <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Expression Level'</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Show the plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/average_4_0.png" src="../_images/average_4_0.png"/>
+<img alt="../_images/average_4_1.png" src="../_images/average_4_1.png"/>
+<img alt="../_images/average_4_2.png" src="../_images/average_4_2.png"/>
+</div>
+</div>
+<p>By comparing these three heatmaps, <em>ACTB</em> exhibits consistently high expression across all the selected organs, indicating a similar expression pattern among them.</p>
+</section>
+<section id="identifying-expression-patterns-of-similar-genes">
+<h2><strong>Identifying expression patterns of similar genes</strong><a class="headerlink" href="#identifying-expression-patterns-of-similar-genes" title="Link to this heading"></a></h2>
+<p><a id="identifying-expression-patterns-of-similar-genes"></a></p>
+<p>When you have a gene of interest, you might want to find genes with similar expression patterns. This example shows you how to use the <code class="docutils literal notranslate"><span class="pre">similar_features</span></code> method to retrieve the top 10 genes with expression patterns similar to <em>TP53</em> in the human lung:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">similar_features</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">similar_features</span><span class="p">(</span>
+    <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span> 
+    <span class="n">organ</span><span class="o">=</span><span class="s1">'lung'</span><span class="p">,</span> 
+    <span class="n">feature</span><span class="o">=</span><span class="s1">'TP53'</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">'correlation'</span><span class="p">,</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">similar_features</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>METTL14     0.134515
+HDAC8       0.134577
+MTOR        0.139444
+HNRNPL      0.141596
+LANCL2      0.142775
+SEH1L       0.143445
+MED4        0.145775
+AHR         0.148074
+HSPA14-1    0.149418
+TRA2A       0.149765
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Output<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">similar_features</span></code> returns a <em>pandas.Series</em> where the <strong>index</strong> contains gene names, and the corresponding <strong>data</strong> represents their distance to <em>TP53</em>.</p>
+<p>In this series, the <strong>Pearson correlation</strong> method is used to calculate the distance. This method produces a value between -1 and 1, where -1 signifies a perfect negative linear relationship, and 1 signifies a perfect positive linear relationship. From the resulting pandas.Series, the top 10 genes with the greatest similarity to <em>TP53</em> all exhibit positive linear relationships, with <em>TRA2A</em> showing the highest similarity. These genes may potentially be co-regulated with <em>TP53</em>.</p>
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">similar_features</span></code> supports the following methods for distance calculation:</p>
+<ul class="simple">
+<li><p><strong>cosine</strong>: Computes cosine similarity/distance based on the fraction detected.</p></li>
+<li><p><strong>euclidean</strong>: Measures Euclidean distance based on average measurements (e.g., expression levels).</p></li>
+<li><p><strong>manhattan</strong>: Calculates the taxicab/Manhattan/L1 distance of average measurements.</p></li>
+<li><p><strong>log-euclidean</strong>: Applies a logarithmic transformation to the average measurement (with a pseudocount of 0.001) before calculating the Euclidean distance, which highlights sparsely measured features.</p></li>
+</ul>
+</section>
+<section id="get-average-gene-expression-for-similar-features">
+<h3>Get average gene expression for similar features<a class="headerlink" href="#get-average-gene-expression-for-similar-features" title="Link to this heading"></a></h3>
+<p>You can then use the <code class="docutils literal notranslate"><span class="pre">average</span></code> method to retrieve the average gene expression of these similar genes. Use <strong>similar_features.index</strong> to extract the gene names returned by <code class="docutils literal notranslate"><span class="pre">similar_features</span></code>, and pass them as the parameter (features) to the <code class="docutils literal notranslate"><span class="pre">average</span></code> method.</p>
+<p>You can either use <code class="docutils literal notranslate"><span class="pre">print</span></code> method to directly display the resulting <em>pandas.DataFrame</em>, or, as shown in the example below, use Seaborn’s <code class="docutils literal notranslate"><span class="pre">heatmap</span></code> method to present a more intuitive graphical representation:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get average gene expression </span>
+<span class="n">avg_similar_features</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+    <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span>
+    <span class="n">organ</span><span class="o">=</span><span class="s1">'lung'</span><span class="p">,</span>
+    <span class="n">features</span><span class="o">=</span><span class="n">similar_features</span><span class="o">.</span><span class="n">index</span>
+<span class="p">)</span>
+
+<span class="c1"># Display the heatmap</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">avg_similar_features</span><span class="p">,</span> 
+    <span class="c1"># yellow-to-red color map</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlOrRd'</span><span class="p">,</span> 
+    <span class="c1"># add label to calour bar</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Expression Level'</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/average_6_1.png" src="../_images/average_6_1.png"/>
+</div>
+</div>
+</section>
+</section>
+<section id="querying-expression-data-for-marker-genes">
+<h2><strong>Querying expression data for marker genes</strong><a class="headerlink" href="#querying-expression-data-for-marker-genes" title="Link to this heading"></a></h2>
+<p><a id="querying-expression-data-for-marker-genes"></a>
+If you’re unsure which genes to explore, marker genes can be a helpful starting point. The following example demonstrates how to retrieve marker genes for your organ and cell type of interest, followed by querying the average expression of these genes.</p>
+<p>First, use the <code class="docutils literal notranslate"><span class="pre">markers</span></code> method to obtain the top 5 marker genes for neutrophils in the human lung:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">markers_in_human_lung_neu</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">markers</span><span class="p">(</span>
+    <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span> 
+    <span class="n">organ</span><span class="o">=</span><span class="s1">'lung'</span><span class="p">,</span> 
+    <span class="n">cell_type</span><span class="o">=</span><span class="s1">'neutrophil'</span><span class="p">,</span> 
+    <span class="n">number</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="n">markers_in_human_lung_neu</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>['CXCR2', 'FCGR3B', 'IL1R2', 'G0S2', 'MTND5P32']
+</pre></div>
+</div>
+</div>
+</div>
+<section id="retrieve-and-plot">
+<h3>Retrieve and plot<a class="headerlink" href="#retrieve-and-plot" title="Link to this heading"></a></h3>
+<p>Next, use the <code class="docutils literal notranslate"><span class="pre">average</span></code> method to retrieve the average gene expression of these genes, then, use Seaborn’s <code class="docutils literal notranslate"><span class="pre">heatmap</span></code> to visualize your data:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Getting average gene expression for marker genes</span>
+<span class="n">avg_gene_expr_markers</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+    <span class="n">organism</span><span class="o">=</span><span class="s1">'h_sapiens'</span><span class="p">,</span>
+    <span class="n">organ</span><span class="o">=</span><span class="s1">'lung'</span><span class="p">,</span>
+    <span class="n">features</span><span class="o">=</span><span class="n">markers_in_human_lung_neu</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">avg_gene_expr_markers</span><span class="p">,</span> 
+    <span class="c1"># yellow-to-red color map</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlOrRd'</span><span class="p">,</span> 
+    <span class="c1"># add label to calour bar</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Expression Level'</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/average_8_1.png" src="../_images/average_8_1.png"/>
+</div>
+</div>
+<section id="id2">
+<h4>Output<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
+<p>This heatmap displays the gene expression levels of five neutrophil marker genes across all cell types.</p>
+<p>A significant portion of the heatmap appears black, indicating that these genes have very low expression levels (between 0-20 cptt) in most cell types. Due to the wide range of gene expression values, the current scale is too broad to effectively show differences within the 0-20 range. In this case, applying a logarithmic transformation helps compress the range, making smaller expression differences more visible while minimizing the impact of extremely high values. You can use the following code:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call log method in numpy to get all numbers logged</span>
+<span class="c1"># add 1 to avoid "devide by 0"</span>
+<span class="n">avg_gene_expr_markers_log</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">avg_gene_expr_markers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Display heatmap</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">avg_gene_expr_markers_log</span><span class="p">,</span> 
+    <span class="c1"># yellow-to-red color map</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlOrRd'</span><span class="p">,</span> 
+    <span class="c1"># add label to calour bar</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'label'</span><span class="p">:</span> <span class="s1">'Expression Level'</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="../_images/average_9_1.png" src="../_images/average_9_1.png"/>
+</div>
+</div>
+<p>To avoid division by zero, this example uses avg_gene_expr_markers + 1 instead of avg_gene_expr_markers. This addresses any potential blank cell issues while keeping the log scale consistent.</p>
+<p>Comparing this heatmap with the original one, in this heatmap, all blank cells represent areas with no gene expression, while the other genes show low levels of expression across most cell types. It can be observed that <em>G0S2</em> is also expressed in <em>monocytes</em>, <em>dendritic cells</em>, <em>alveolar fibroblasts</em>, and <em>vascular smooth muscle</em>. Additionally, <em>IL1R2</em> shows expression in two other cell types as well.</p>
+</section>
+</section>
+</section>
+<section id="conclusion">
+<h2><strong>Conclusion</strong><a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>This tutorial introduces several methods for retrieving average gene expression using different API methods and how to use different packages for visualizing the data.</p>
+<p>Thank you for using the <em>atlasapprox</em> API. For more detailed information, please refer to the <a class="reference external" href="https://atlasapprox.readthedocs.io/en/latest/python/index.html">official documentation</a>.</p>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="quick_start.html" rel="prev" title="Quick start: atlasapprox in Python"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2024, Amber Xu.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>
