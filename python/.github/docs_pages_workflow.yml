@@ -3,7 +3,7 @@ name: docs_pages_workflow
 # execute this workflow automatically when push to master
 on:
   push:
-    branches: [ main ]
+    branches: [ sphinx-docs ]
 
 jjobs:
   build_docs_jobs:
