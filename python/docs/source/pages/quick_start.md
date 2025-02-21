@@ -60,12 +60,12 @@ The function returns a *Pandas DataFrame* where:
 ## **Start from scratch**
 If you're starting from scratch, the following steps will help you explore the API.
 1. Ask about available organisms:
-```{code}
+```{jupyter-execute}
 organisms = api.organisms()
 print(organisms)
 ```
 2. Ask about available organs within your organism of interest:
-```{code}
+```{jupyter-execute}
 organs = api.organs(organism="h_sapiens")
 print(organs)
 ```

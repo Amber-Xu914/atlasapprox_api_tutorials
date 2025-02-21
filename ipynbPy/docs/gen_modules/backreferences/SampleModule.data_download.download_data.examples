@@ -1,0 +1,63 @@
+
+
+Examples using ``SampleModule.data_download.download_data``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="We can use the same iris dataset in this example, without downloading it twice as we know data_download will check if the data has already been downloaded.">
+
+.. only:: html
+
+  .. image:: /auto_gallery-python/images/thumb/sphx_glr_plot_2_data2_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery-python_plot_2_data2.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data download example 2</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_gallery-python_plot_2_data2.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows one way of dealing with large data files required for your examples.">
+
+.. only:: html
+
+  .. image:: /auto_gallery-python/images/thumb/sphx_glr_plot_1_download_data_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_gallery-python_plot_1_download_data.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Data download example</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_gallery-python_plot_1_download_data.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

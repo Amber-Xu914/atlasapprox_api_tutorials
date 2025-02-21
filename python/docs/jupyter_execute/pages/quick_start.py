@@ -10,6 +10,8 @@ pip install atlasapprox
 # In[2]:
 
 
+import os
+os.environ["ATLASAPPROX_HIDECREDITS"] = "yes"
 import atlasapprox
 
 api = atlasapprox.API()
@@ -28,11 +30,4 @@ avg_gene_expr_lung = api.average(
 
 # Display the result
 avg_gene_expr_lung
-
-
-# In[4]:
-
-
-cell_types = api.celltypes(organism="h_sapiens", organ="lung")
-print(cell_types)
 
