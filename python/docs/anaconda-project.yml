@@ -1,0 +1,23 @@
+name: AtlasApprox Sphinx Docs
+description: Sphinx docs for Atlasapprox user tutorial
+
+commands:
+  quickstart:
+    unix: sphinx-quickstart
+  build:
+    unix: rm -rf build & sphinx-build -b html ./source ./build
+  serve:
+    unix: python -m http.server --dractory ./build
+
+env_specs:
+  default:
+    packages:
+      - python
+      - sphinx=7.3.7
+      - myst-parser
+      - jupyter-sphinx
+      - sphinx-codeautolink
+
+channels:
+  - defaults
+  - https://conda.anaconda.org/conda-forge/

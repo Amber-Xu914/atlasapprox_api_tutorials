@@ -1,0 +1,73 @@
+{
+ "SampleModule.module.class_power": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "SampleModule.module",
+   "module_short": "SampleModule.module",
+   "name": "class_power"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "SampleModule",
+   "module_short": "SampleModule",
+   "name": "class_power"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule.module",
+   "module_short": "SampleModule.module",
+   "name": "class_power"
+  }
+ ],
+ "SampleModule.module.fun_power": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule.module",
+   "module_short": "SampleModule.module",
+   "name": "fun_power"
+  }
+ ],
+ "my_class": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule.module",
+   "module_short": "SampleModule.module",
+   "name": "class_power"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule",
+   "module_short": "SampleModule",
+   "name": "class_power"
+  }
+ ],
+ "my_class.power": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule.module",
+   "module_short": "SampleModule.module",
+   "name": "class_power.power"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "SampleModule",
+   "module_short": "SampleModule",
+   "name": "class_power.power"
+  }
+ ]
+}
